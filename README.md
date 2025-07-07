@@ -34,7 +34,7 @@ python f.py --target username --action follow
 
 ## How It Works
 
-The tool uses the GitHub API to fetch followers or following lists of a target user, compares them with your own following list, and performs follow/unfollow actions accordingly.
+The tool uses the GitHub API to fetch followers or following lists of a target user, compares them with your own following list, and performs follow actions accordingly.
 
 ## Requirements
 
