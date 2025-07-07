@@ -102,7 +102,7 @@ def main():
                 print(f"Failed with status code {resp.status_code}.")
 
             idx += 1
-            time.sleep(1/30)
+            time.sleep(1/2)
 
     except KeyboardInterrupt:
         print("\nInterrupted by user, exiting.")
