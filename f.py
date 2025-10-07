@@ -15,10 +15,16 @@ Example:
 """
 
 def countdown(seconds):
+    """Display countdown timer with option to cancel"""
     for remaining in range(seconds, 0, -1):
-        print(f"\r⏳ Pausing for {remaining} seconds... Press Ctrl+C to exit.", end='', flush=True)
+        mins, secs = divmod(remaining, 60)
+        if mins > 0:
+            time_str = f"{mins}m {secs}s"
+        else:
+            time_str = f"{secs}s"
+        print(f"\r⏳ Pausing for {time_str}... Press Ctrl+C to exit.", end='', flush=True)
         time.sleep(1)
-    print("\r⏳ Pause complete! Resuming...          ")
+    print("\r⏳ Pause complete! Resuming...                    ")
 
 def is_following(username, headers):
     url = f"https://api.github.com/user/following/{username}"
@@ -141,9 +147,20 @@ def main():
 
             if remaining == 0:
                 reset_dt = datetime.datetime.fromtimestamp(reset_time).strftime('%Y-%m-%d %H:%M:%S')
+                current_time = time.time()
+                wait_seconds = max(reset_time - current_time, 0) + 60  # Add 1 minute buffer
+                
                 print(f"\n⚠️ API limit reached. Reset at: {reset_dt}")
-                print("Script stopped to avoid violating the limit.")
-                sys.exit(1)
+                print(f"⏰ Auto-waiting for {int(wait_seconds/60)} minutes before resuming...")
+                print("💡 You can press Ctrl+C to stop the script if needed.")
+                
+                try:
+                    countdown(int(wait_seconds))
+                    print("✅ Rate limit reset! Resuming follows...\n")
+                    continue  # Retry the same user
+                except KeyboardInterrupt:
+                    print("\n\n⚠️ Wait interrupted by user. Exiting...")
+                    sys.exit(0)
 
             if resp.status_code == 204:
                 print("Success!")
@@ -152,9 +169,24 @@ def main():
                 print("User not found.")
             elif resp.status_code == 403:
                 reset_dt = datetime.datetime.fromtimestamp(reset_time).strftime('%Y-%m-%d %H:%M:%S')
-                print(f"⚠️ Forbidden (possibly rate limited). Reset at: {reset_dt}")
-                print("Script stopped to avoid violating the limit.")
-                sys.exit(1)
+                current_time = time.time()
+                wait_seconds = max(reset_time - current_time, 0) + 60  # Add 1 minute buffer
+                
+                # If no reset time or unreasonable, default to 30 minutes
+                if wait_seconds <= 0 or wait_seconds > 7200:  # max 2 hours
+                    wait_seconds = 1800  # 30 minutes default
+                
+                print(f"⚠️ Forbidden (rate limited). Reset at: {reset_dt}")
+                print(f"⏰ Auto-waiting for {int(wait_seconds/60)} minutes before resuming...")
+                print("💡 You can press Ctrl+C to stop the script if needed.")
+                
+                try:
+                    countdown(int(wait_seconds))
+                    print("✅ Rate limit reset! Resuming follows...\n")
+                    continue  # Retry the same user
+                except KeyboardInterrupt:
+                    print("\n\n⚠️ Wait interrupted by user. Exiting...")
+                    sys.exit(0)
             elif resp.status_code == 401:
                 print("Unauthorized. Check your ACCESS_TOKEN.")
                 sys.exit(1)
