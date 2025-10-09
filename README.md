@@ -1,7 +1,6 @@
 # GitHub Auto-Follow Bot with Smart Rate Limit Handling
 
 ## 🌟 Key Features
-
 ### 1. Bulk Follow
 ✅ Follow multiple users from a text file
 
@@ -32,17 +31,17 @@
 ✅ Press Ctrl+C anytime to safely stop
 
 ## 🚀 What Makes This Special?
-
 ### 1. Automatic Rate Limit Recovery
-When GitHub's API rate limit is reached, the script:
-- Automatically detects the rate limit
+#### How it Works
+- Automatically detects the GitHub API rate limit
 - Calculates exact wait time needed
 - Displays countdown timer with remaining time
 - Automatically resumes following after wait
 - No manual intervention needed!
 
 ### 2. Intelligent Spot Checking
-Verifies your followers every 10 follows to ensure everything works:
+#### How it Works
+- Verifies your followers every 10 follows to ensure everything works
 - Compares expected vs actual follower increase
 - Provides detailed analysis of results
 - Helps detect issues early
@@ -62,23 +61,13 @@ Verifies your followers every 10 follows to ensure everything works:
 💡 You can press Ctrl+C to stop the script if needed.
 ⏳ Pausing for 29m 45s... Press Ctrl+C to exit.
 ```
-```markdown
+
 ## 📄 Contributing
-This project is open to contributions. If you'd like to contribute, please fork the repository and submit a pull request.
-```
-```markdown
-## 🚀 License
-This project is licensed under the [MIT License](LICENSE).
-```
-```markdown
-## 📊 Version History
-Please see [CHANGELOG](CHANGELOG).
-```
-```markdown
-## 💻 Requirements
-- Python 3.8+
-- GitHub API credentials
-```
-```markdown
-## 🔍 API Documentation
-For API documentation, please refer to the [GitHub API documentation](https://docs.github.com/en/rest).
+### How to Contribute
+1. Fork the repository
+2. Make your changes
+3. Submit a pull request for review
+### Guidelines
+- Follow standard coding conventions
+- Provide clear explanations for changes
+- Test your changes thoroughly
